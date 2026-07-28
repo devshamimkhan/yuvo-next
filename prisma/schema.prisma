@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String
+  role      Role     @default(customer)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id               Int           @id @default(autoincrement())
+  name             String
+  slug             String        @unique @default("")
+  productType      ProductType   @default(comingSoon)
+  price            Decimal       @db.Decimal(10, 2)
+  comparePrice     Decimal?      @db.Decimal(10, 2)
+  status           ProductStatus @default(draft)
+  imageUrl         String?
+  galleryImages    Json?
+  shortDescription String?       @db.VarChar(500)
+  description      String?       @db.Text
+  rating           Float?
+  shipping         String?
+  kitItems         Json?
+  features         Json?
+  faqs             Json?
+  additionalContent Json?
+  affiliateUrl     String?       @db.VarChar(2048)
+  featured         Boolean       @default(false)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+enum ProductType {
+  comingSoon
+  affiliate
+}
+
+enum Role {
+  customer
+  admin
+}
+
+enum ProductStatus {
+  active
+  draft
+  archived
+}
+
+
+
+model GeneralSetting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value Json?  @db.Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FooterSetting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value Json?  @db.Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SubscriberStatus {
+  subscribed
+  unsubscribed
+}
+
+model NewsletterSubscriber {
+  id           Int               @id @default(autoincrement())
+  email        String            @unique
+  status       SubscriberStatus  @default(subscribed)
+  isRead       Boolean           @default(false)
+  subscribedAt DateTime          @default(now())
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
+
+model MoveGuide {
+  id               Int            @id @default(autoincrement())
+  title            String
+  slug             String         @unique @default("")
+  description      String         @db.Text
+  imageUrl         String?
+  instructionText  String         @db.Text
+  disclaimerText   String?        @db.Text
+  tools            Json?
+  moves            Json?
+  contentSections  Json?
+  status           ProductStatus  @default(draft)
+  icon             String?
+  featured         Boolean        @default(false)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
