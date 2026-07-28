@@ -9,6 +9,8 @@ function GuideIcon({ iconName }) {
   return <Icon />;
 }
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "Movement Hub – YUVO Fitness",
   description:

@@ -226,6 +226,8 @@ export async function createProductAction(formData) {
     throw error;
   }
   revalidatePath("/admin/products");
+  revalidatePath("/our-story");
+  revalidatePath("/", "layout");
   redirect("/admin/products");
 }
 
@@ -251,6 +253,8 @@ export async function updateProductAction(formData) {
   }
 
   revalidatePath("/admin/products");
+  revalidatePath("/our-story");
+  revalidatePath("/", "layout");
   revalidatePath(`/admin/products/${id}/edit`);
   //redirect("/admin/products");
 }
@@ -265,6 +269,8 @@ export async function deleteProductAction(formData) {
 
   await prisma.product.delete({ where: { id } });
   revalidatePath("/admin/products");
+  revalidatePath("/our-story");
+  revalidatePath("/", "layout");
 }
 
 export async function toggleFeaturedAction(id, featured) {
@@ -281,4 +287,6 @@ export async function toggleFeaturedAction(id, featured) {
   });
 
   revalidatePath("/admin/products");
+  revalidatePath("/our-story");
+  revalidatePath("/", "layout");
 }

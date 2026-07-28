@@ -134,6 +134,8 @@ export async function createMoveGuideAction(formData) {
   await assertAdmin();
   await prisma.moveGuide.create({ data: guideData(formData) });
   revalidatePath("/admin/moveguides");
+  revalidatePath("/moveguide");
+  revalidatePath("/", "layout");
   redirect("/admin/moveguides");
 }
 
@@ -151,6 +153,8 @@ export async function updateMoveGuideAction(formData) {
   });
 
   revalidatePath("/admin/moveguides");
+  revalidatePath("/moveguide");
+  revalidatePath("/", "layout");
   revalidatePath(`/admin/moveguides/${id}/edit`);
 }
 
@@ -164,6 +168,8 @@ export async function deleteMoveGuideAction(formData) {
 
   await prisma.moveGuide.delete({ where: { id } });
   revalidatePath("/admin/moveguides");
+  revalidatePath("/moveguide");
+  revalidatePath("/", "layout");
 }
 
 export async function toggleMoveGuideFeaturedAction(id, featured) {
@@ -179,4 +185,6 @@ export async function toggleMoveGuideFeaturedAction(id, featured) {
   });
 
   revalidatePath("/admin/moveguides");
+  revalidatePath("/moveguide");
+  revalidatePath("/", "layout");
 }
